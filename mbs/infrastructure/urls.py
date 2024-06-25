@@ -1,6 +1,7 @@
 from django.urls import path
-from . import views
+from mbs.infrastructure.views import index, UserRepositoryView
 
 urlpatterns = [
-    path('', views.index, name='index'),
+    path('', index, name='index'),
+    path('register', UserRepositoryView.as_view(), name='register')
 ]

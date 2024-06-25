@@ -2,9 +2,10 @@
 
 class User:
 
-    def __init__(self, cedula, name, last_name, cell_phone, email, address, role, date_born=None, province=None, electoral_college=None, electoral_college_location=None):
-        self.cedula = celula
-        self.name = name
+    def __init__(self, cedula, first_name, last_name, cell_phone, email, address, role, date_born=None, province=None, electoral_college=None, electoral_college_location=None, id=None):
+        self.id = id
+        self.cedula = cedula
+        self.first_name = first_name
         self.last_name = last_name
         self.cell_phone = cell_phone
         self.email = email
@@ -12,17 +13,17 @@ class User:
         self.role = role
         self.date_born = date_born
         self.province = province
-        self.electoral_college
-        self.electoral_college_location
+        self.electoral_college = electoral_college
+        self.electoral_college_location = electoral_college_location
 
         def __str__(self):
-            return f"{self.cedula} {self.name} {self.last_name}"
+            return f"{self.cedula} {self.first_name} {self.last_name} {self.cell_phone}"
 
 
 class Coordinator(User):
 
-    def __init__(self, cedula, name, last_name, cell_phone, email, address, role, date_born=None, province=None, electoral_college=None, electoral_college_location=None):
-        super().__init__(cedula, name, last_name, cell_phone, email, address,
+    def __init__(self, cedula, first_name, last_name, cell_phone, email, address, role, date_born=None, province=None, electoral_college=None, electoral_college_location=None):
+        super().__init__(cedula, first_name, last_name, cell_phone, email, address,
                          'coordinator', date_born, province, electoral_college, electoral_college_location)
         self.facilitators = []
         self.member_manager = MemberManager()
@@ -41,8 +42,8 @@ class Coordinator(User):
 
 class Facilitator(User):
 
-    def __init__(self, cedula, name, last_name, cell_phone, email, address, coordinator, role, date_born=None, province=None, electoral_college=None, electoral_college_location=None):
-        super.__init__(cedula, name, last_name, cell_phone, email, address,
+    def __init__(self, cedula, first_name, last_name, cell_phone, email, address, coordinator, role, date_born=None, province=None, electoral_college=None, electoral_college_location=None):
+        super.__init__(cedula, first_name, last_name, cell_phone, email, address,
                        'facilitator', date_born, province, electoral_college, electoral_college_location)
         self.coordinator = coordinator
         self.member_manager = MemberManager()
