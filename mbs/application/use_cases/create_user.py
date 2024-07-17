@@ -6,28 +6,36 @@ from mbs.domain.interfaces.repositories import UserRepositoryInterface, Electora
 
 class CreateUser:
 
-    def __init__(self, user_repository: UserRepositoryInterface, electoral_roll_repository: ElectoralRollRepositoryInterface):
+    def __init__(self, user_repository: UserRepositoryInterface):
         self.user_repository = user_repository
-        self.electoral_roll_repository = electoral_roll_repository
 
-    def execute(self, cedula, cell_phone, email, address, role):
-        electoral_data = self.electoral_roll_repository.get_by_cedula(cedula)
-        if not electoral_data:
-            raise ValueError('Cedula no encontrada en el padron electoral')
+    def execute(self, cedula, first_name, last_name, date_born, cell_phone, email, address, province,
+                electoral_college, electoral_college_location, role):
+
+        password = self._generate_password(first_name, last_name, cedula)
 
         user = User(
             cedula=cedula,
-            first_name=electoral_data.first_name,
-            last_name=electoral_data.last_name,
-            date_born=electoral_data.date_born,
-            province=electoral_data.province,
-            electoral_college=electoral_data.electoral_college,
-            electoral_college_location=electoral_data.electoral_college_location,
+            first_name=first_name,
+            last_name=last_name,
+            date_born=date_born,
+            province=province,
+            electoral_college=electoral_college,
+            electoral_college_location=electoral_college_location,
             cell_phone=cell_phone,
             email=email,
             address=address,
             role=role
         )
 
-        self.user_repository.create(user)
+        self.user_repository.create(user, password)
         return user
+
+    def _generate_password(self, first_name, last_name, cedula):
+
+        initial_letter_fisrt_name = first_name[0].lower()
+        initial_letter_last_name = last_name[0].lower()
+        cedula_suffix = cedula[-6:]
+
+        password = f"{initial_letter_fisrt_name}{initial_letter_last_name}{cedula_suffix}"
+        return password

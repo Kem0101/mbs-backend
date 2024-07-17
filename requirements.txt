@@ -2,3 +2,5 @@ Django==5.0.6
 mysqlclient>=2.0,<3.0
 python-dotenv
 watchdog
+django-rest-framework
+django-rest-auth

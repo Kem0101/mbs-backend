@@ -2,12 +2,16 @@
 
 from mbs.domain.interfaces.repositories import UserRepositoryInterface, ElectoralRollRepositoryInterface
 from mbs.domain.entities import User
-from .models import User as UserModel, ElectoralRoll as ElectoralRollModel
+from .models import CustomUser as UserModel, ElectoralRoll as ElectoralRollModel
+from django.contrib.auth.hashers import make_password
 
 
 class UserRepository(UserRepositoryInterface):
 
-    def create(self, user):
+    def create(self, user, password):
+
+        hashed_password = make_password(password)
+
         user_model = UserModel.objects.create(
             cedula=user.cedula,
             first_name=user.first_name,
@@ -20,7 +24,7 @@ class UserRepository(UserRepositoryInterface):
             electoral_college=user.electoral_college,
             electoral_college_location=user.electoral_college_location,
             role=user.role,
-            username=''
+            password=hashed_password
         )
 
         return self._map_user_model_to_domain(user_model)

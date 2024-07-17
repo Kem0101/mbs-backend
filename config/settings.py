@@ -12,7 +12,9 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 
 import os
 from pathlib import Path
+from datetime import timedelta
 from dotenv import load_dotenv
+
 
 load_dotenv()
 
@@ -35,14 +37,26 @@ ALLOWED_HOSTS = ['*']
 # Application definition
 
 INSTALLED_APPS = [
+    'mbs',
+    'rest_framework',
+    'rest_framework.authtoken',
+    'rest_auth',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'mbs',
+
+
 ]
+
+AUTHENTICATION_BACKENDS = [
+    'mbs.infrastructure.backend.CedulaAuthBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
+AUTH_USER_MODEL = 'mbs.CustomUser'
 
 
 MIDDLEWARE = [

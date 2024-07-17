@@ -2,7 +2,7 @@
 
 class UserRepositoryInterface:
 
-    def create(self, user):
+    def create(self, user, password):
         raise NotImplementedError
 
     def get_by_cedula(self, cedula):
